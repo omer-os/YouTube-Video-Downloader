@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function YTBDownloaderCon() {
   const [videoURL, setVideoURL] = useState("");
-  const [format, setFormat] = useState("mp4");
+  const [format, setFormat] = useState("mp3");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDownload = () => {
