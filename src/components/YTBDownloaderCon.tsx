@@ -16,7 +16,7 @@ export default function YTBDownloaderCon() {
       downloadLink.href = `/api/download?videoURL=${encodeURIComponent(
         videoURL
       )}&format=${format}`;
-      downloadLink.download = `${videoURL} ...${format}`;
+      downloadLink.download = `${videoURL}.${format}`;
       downloadLink.click();
 
       // When the browser tab regains focus, assume the download started
