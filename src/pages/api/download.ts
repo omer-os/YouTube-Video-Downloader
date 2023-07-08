@@ -9,13 +9,14 @@ type Filter =
   | "videoonly"
   | "audio"
   | "audioonly";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { videoURL, format } = req.query;
 
-  var selectedFormat: Filter = "audio";
+  let selectedFormat: Filter;
 
   if (format === "mp4") {
     selectedFormat = "video";
@@ -41,7 +42,7 @@ export default async function handler(
   try {
     const info = await ytdl.getInfo(videoURL);
     const videoFormat = ytdl.chooseFormat(info.formats, {
-      quality: "highestaudio",
+      quality: "highest",
       filter: selectedFormat,
     });
 
@@ -50,14 +51,19 @@ export default async function handler(
       return;
     }
 
-    let sanitizedTitle = info.videoDetails.title.replace(/[^\w\s_-]/g, "");
+    const sanitizedTitle = info.videoDetails.title.replace(/[^\w\s_-]/g, "");
 
     res.setHeader(
       "Content-Disposition",
       `attachment; filename="${sanitizedTitle}.${format}"`
     );
 
-    res.setHeader("Content-Type", `audio/${format === "mp3" ? "mpeg" : "mp4"}`);
+    res.setHeader(
+      "Content-Type",
+      `${selectedFormat === "audio" ? "audio" : "video"}/${
+        format === "mp3" ? "mpeg" : "mp4"
+      }`
+    );
 
     const videoReadableStream = ytdl.downloadFromInfo(info, {
       format: videoFormat,

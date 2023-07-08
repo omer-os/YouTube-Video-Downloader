@@ -16,10 +16,7 @@ export default function YTBDownloaderCon() {
       downloadLink.href = `/api/download?videoURL=${encodeURIComponent(
         videoURL
       )}&format=${format}`;
-      downloadLink.download = `${videoURL
-        .split("v=")[1]
-        .split("&")[0]
-        .slice(0, 10)}...${format}`;
+      downloadLink.download = `${videoURL} ...${format}`;
       downloadLink.click();
 
       // When the browser tab regains focus, assume the download started
@@ -34,11 +31,6 @@ export default function YTBDownloaderCon() {
     }
   };
 
-  const spinnerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.5 } },
-    exit: { opacity: 0, transition: { duration: 0.5 } },
-  };
   return (
     <div className="flex flex-col">
       <div className="rounded h-14 w-full max-w-[34em] border relative mx-auto mt-8 border-zinc-500 flex gap-0.5">
